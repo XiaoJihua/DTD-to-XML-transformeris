@@ -1,0 +1,11 @@
+<!DOCTYPE team 
+[
+  <!ELEMENT team (person)*>
+  <!ELEMENT person (name, city?, salary)*>
+  <!ATTLIST person 
+           id ID #REQUIRED 
+           position CDATA #REQUIRED>
+  <!ELEMENT name (#PCDATA)>
+  <!ELEMENT city (#PCDATA)>
+  <!ELEMENT salary (#PCDATA)>
+]>
