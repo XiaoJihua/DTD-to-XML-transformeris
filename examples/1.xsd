@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">   
+	
+	<xsd:element name="rapperis" type="RapperisType"><xsd:unique name="UniqueDid">
+		<xsd:selector xpath="./rapper" /> 
+			<xsd:field xpath="@id" /> 
+        </xsd:unique>
+	</xsd:element>
+	
+	<xsd:complexType name="RapperisType">
+		<xsd:sequence>
+			<xsd:element name="singles" type="SinglesType" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="mixtapes" type="MixtapesType" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="rappers" type="RappersType" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="SinglesType">
+		<xsd:sequence>
+			<xsd:element name="single" type="SingleType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MixtapesType">
+		<xsd:sequence>
+			<xsd:element name="mixtape" type="MixtapeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="RappersType">
+		<xsd:sequence>
+			<xsd:element name="rapper" type="RapperType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="SingleType">
+		<xsd:sequence>
+			<xsd:element name="title" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="production" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+        <xsd:attribute name="rapper" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="MixtapeType">
+		<xsd:sequence>
+			<xsd:element name="title" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="length" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="year" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+        <xsd:attribute name="rapper" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="RapperType">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="aka" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="born" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+        <xsd:attribute name="id" use="required"/>
+	</xsd:complexType>
+	
+</xsd:schema>

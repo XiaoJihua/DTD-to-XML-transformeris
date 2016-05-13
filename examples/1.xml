@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE rapperis
+[
+	<!ELEMENT rapperis (singles, mixtapes, rappers)>
+	<!ELEMENT singles (single)*>
+	<!ELEMENT single (title, production)>
+	<!ATTLIST single
+		rapper CDATA #REQUIRED>
+	<!ELEMENT title (#PCDATA)>
+	<!ELEMENT production (#PCDATA)>
+	<!ELEMENT mixtapes (mixtape)*>
+	<!ELEMENT mixtape (title, length, year)>
+	<!ATTLIST mixtape
+		rapper CDATA #REQUIRED>
+	<!ELEMENT length (#PCDATA)>
+	<!ELEMENT year (#PCDATA)>
+	<!ELEMENT rappers (rapper)*>
+	<!ELEMENT rapper (name, aka, born?)>
+	<!ATTLIST rapper
+		id ID #REQUIRED>
+	<!ELEMENT name (#PCDATA)>
+	<!ELEMENT aka (#PCDATA)>
+	<!ELEMENT born (#PCDATA)>
+]>
+
+
+<rapperis>
+	<singles>
+		<single rapper="i1">
+			<title>Zijeme len raz</title>
+			<production>Robert Burian</production>
+		</single>
+	</singles>
+	
+	<mixtapes>
+		<mixtape rapper="i0">
+			<title>Bengoro</title>
+			<length>36 min</length>
+			<year>2006</year>
+		</mixtape>
+		<mixtape rapper="i0">
+			<title>Si zabil</title>
+			<length>39 min</length>
+			<year>2008</year>
+		</mixtape>
+	</mixtapes>
+
+	<rappers>
+		<rapper id="i0">
+			<name>Patrik Vrbovsky</name>
+			<aka>Rytmus</aka>
+			<born>Kromeriz</born>
+		</rapper>
+		<rapper id="i1">
+			<name>Michal Straka</name>
+			<aka>Ego</aka>
+		</rapper>
+	</rappers>
+</rapperis>
