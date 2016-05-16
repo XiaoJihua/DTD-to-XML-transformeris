@@ -1,0 +1,18 @@
+<xs:element name="PARTS" type="PARTSStyle"/>
+
+<xs:complexType name="PARTSType">
+    <xs:sequence>
+      <xs:element name="TITLE" type="xs:string"/>
+      <xs:element name="PART" type="PARTTYPE" maxOccurs="unbound" use="required"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="PARTTYPE">
+    <xs:sequence>
+      <xs:element name="ITEM" type="xs:string" use="required" />
+      <xs:element name="MANUFACTURER" type="xs:string" use="required" />
+      <xs:element name="MODEL" type="xs:string" use="required" />
+      <xs:element name="COST" type="xs:string" use="required" />
+    </xs:sequence>
+</xs:complexType>
+
