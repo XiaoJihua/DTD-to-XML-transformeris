@@ -5,6 +5,7 @@
  */
 package structures;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Document {
     private String version;
     private String encoding;
     private Elem rootElement = null;
+    private List<Attribute> keys = null;
     private List<Elem> allElements = new LinkedList<>();
     
     public void addElement(String parentName, List<String> names, String type)
@@ -49,6 +51,16 @@ public class Document {
     {        
             Elem pom = findElement(parentName);
             pom.addAttribute(name, type, option); 
+    }
+    
+    public void addKey(String name, String type)
+    {
+        if(keys == null)
+        {
+            keys = new LinkedList<>();
+        }
+        
+        keys.add(new Attribute(name, type, "required"));   
     }
     
     public List<Structure> getElements(String parentName)
@@ -86,5 +98,10 @@ public class Document {
     public void setEncoding(String encoding)
     {
         this.encoding = encoding;
+    }
+    
+    public List<Attribute> getKeys()
+    {
+        return Collections.unmodifiableList(keys);
     }
 }
