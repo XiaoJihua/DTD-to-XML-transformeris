@@ -229,8 +229,8 @@ public class Parser {
             System.out.println("------------------------------------------------------");
             System.out.println("Zacatek    : "+parts[0]);
             System.out.println("Jmeno Uzlu : "+parts[1]);
-            System.out.println("Jmeno parametru : "+parts[1]);
-            System.out.println("Zbytek     : "+zbytek);*/
+            System.out.println("Jmeno parametru : "+parts[2]);
+            System.out.println("Zbytek     : "+parts[3]);*/
         }
     }
 }
