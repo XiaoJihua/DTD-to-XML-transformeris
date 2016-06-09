@@ -62,6 +62,18 @@ public class Structure
     {
         this.minOccurs = minOccurs;
     }
+    
+    public String toXsd() 
+    {
+        String ret = new String();
+        ret += "<xsd:" + identifier + " minOccurs=\"" + getMinOccurs() + "\" maxOccurs=\"" + getMaxOccurs() + "\">\n";
+        for (Elem elem : getElements())
+        {
+            ret += elem.toXsd();
+        }
+        ret += "</xsd:" + identifier + ">\n";
+        return ret;
+    }
 }
 
 

@@ -5,6 +5,7 @@
  */
 package transformeris;
 import Parser.Parser;
+import java.io.PrintWriter;
 import structures.Attribute;
 import structures.Document;
 import structures.Elem;
@@ -47,6 +48,17 @@ public class Transformeris {
         for(Attribute i:document.getAttributes("element2"))
         {
             System.out.println("attributes in element2:\nname " + i.getName() + "\ntype " + i.getType() + "\noption " + i.getOption());                
+        }
+        
+        try
+        {     
+            PrintWriter out = new PrintWriter("output.txt");
+            out.print(document.toXsd());
+            out.close();
+        } 
+        catch( Exception e )
+        {
+            
         }
     }
 }

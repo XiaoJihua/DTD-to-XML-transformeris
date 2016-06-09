@@ -87,4 +87,14 @@ public class Document {
     {
         this.encoding = encoding;
     }
+    
+    public String toXsd() 
+    {
+        String ret = new String();
+        ret += String.format( "<?xml version=\"%s\" encoding=\"%s\"?>\n", getVersion(), getEncoding() );  
+        ret += "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\">\n";
+        ret += rootElement.toXsd();
+        ret += "</xsd:schema>";
+        return ret;
+    }
 }

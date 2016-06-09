@@ -50,4 +50,9 @@ public class Attribute {
     {
         this.option = option;
     }
+    
+    public String toXsd() 
+    {
+        return "<xsd:attribute name=\"" + name + "\" type=\"xsd:string\" " + "use=\"" + (option.equals("REQUIRED") ? "required" : "optional" ) + "\"/>\n";
+    }
 }
