@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xsd:element name="retazce">
+<xsd:complexType>
+<xsd:element minOccurs="0" maxOccurs="0">
+<xsd:element name="element1">
+</xsd:element>
+<xsd:element name="element2">
+<xsd:complexType>
+<xsd:attribute name="attribute2" type="xsd:string" use="required"/>
+<xsd:attribute name="attribute3" type="xsd:string" use="required"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="element3">
+</xsd:element>
+</xsd:element>
+<xsd:sequence minOccurs="0" maxOccurs="0">
+<xsd:element name="sequence1">
+</xsd:element>
+<xsd:element name="sequence2">
+</xsd:element>
+</xsd:sequence>
+<xsd:choice minOccurs="0" maxOccurs="0">
+<xsd:element name="choice1">
+</xsd:element>
+<xsd:element name="choice2">
+</xsd:element>
+</xsd:choice>
+<xsd:element minOccurs="0" maxOccurs="0">
+<xsd:element name="element4">
+<xsd:complexType>
+<xsd:element minOccurs="0" maxOccurs="0">
+<xsd:element name="element5">
+</xsd:element>
+<xsd:element name="element6">
+</xsd:element>
+</xsd:element>
+<xsd:choice minOccurs="0" maxOccurs="0">
+<xsd:element name="choice3">
+</xsd:element>
+<xsd:element name="choice4">
+</xsd:element>
+</xsd:choice>
+<xsd:sequence minOccurs="0" maxOccurs="0">
+<xsd:element name="sequence3">
+</xsd:element>
+<xsd:element name="sequence4">
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:element>
+<xsd:attribute name="attribute1" type="xsd:string" use="required"/>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
