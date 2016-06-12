@@ -1,0 +1,16 @@
+<!ELEMENT team (person)*>
+<!ELEMENT person (name*, city?, (elem1,(elem2, elem3), elem4) | (elem5 , elem6), elem7 | elem8,  salary)>
+<!ATTLIST person 
+         id ID #REQUIRED
+         position CDATA #IMPLIED>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT city (#PCDATA)>
+<!ELEMENT salary (#PCDATA)>
+<!ELEMENT elem1 (#PCDATA)>
+<!ELEMENT elem2 (#PCDATA)>
+<!ELEMENT elem3 (#PCDATA)>
+<!ELEMENT elem4 (#PCDATA)>
+<!ELEMENT elem5 (#PCDATA)>
+<!ELEMENT elem6 (#PCDATA)>
+<!ELEMENT elem7 (#PCDATA)>
+<!ELEMENT elem8 (#PCDATA)>
