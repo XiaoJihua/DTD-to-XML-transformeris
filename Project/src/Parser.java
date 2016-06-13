@@ -62,10 +62,11 @@ public class Parser
                         {            
                             block = block.substring(0, block.indexOf(">"));
                             block += " xmlns=\"http://www.w3schools.com\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3schools.com output.xsd\">";
+                            character = reader.read();
                             while(character != -1)
                             {
-                                character = reader.read();
-                                block += String.valueOf((char)character);               
+                                block += String.valueOf((char)character);  
+                                character = reader.read();             
                             }
                             isReferenceSet = true;
                             parseNext = false;                         
