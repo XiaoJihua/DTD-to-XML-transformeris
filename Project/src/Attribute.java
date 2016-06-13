@@ -3,22 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package structures;
 
 /**
  *
  * @author Simon
  */
 public class Attribute {
-    private String name;
-    private String type;
+    private String name;    
     private String option;
+    private String fixed;
     
-    public Attribute(String name, String type, String option)
+    public Attribute(String name, String option, String fixed)
     {
-        this.name = name;
-        this.type = type;
+        this.name = name;      
         this.option = option;
+        this.fixed = fixed;
     }
     
     public String getName()
@@ -31,16 +30,6 @@ public class Attribute {
         this.name = name;
     }
     
-    public String getType()
-    {
-        return type;
-    }
-    
-    public void setType(String type)
-    {
-        this.type = type;
-    }
-    
     public String getOption()
     {
         return option;
@@ -49,5 +38,11 @@ public class Attribute {
     public void setOption(String option)
     {
         this.option = option;
+    }
+    
+    public String toXsd() 
+    {
+        return "<xsd:attribute name=\"" + name + "\" type=\"xsd:string\" " + 
+               "use=\"" + option + "\"" + ((!fixed.isEmpty()) ? " fixed=" + fixed : "") + "/>\n";         
     }
 }

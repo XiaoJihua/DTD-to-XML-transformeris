@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package structures;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,25 +13,37 @@ import java.util.List;
  *
  * @author Simon
  */
-public class Document {
+public class Document 
+{
     private String version;
     private String encoding;
     private Elem rootElement = null;
-    private List<Elem> allElements = new LinkedList<>();
+    private List<Key> keys = null;
+    private List<Elem> allElements = null;
     
-    public void addElement(String parentName, List<String> names, String type)
+    public Document()
+    {
+        keys = new ArrayList<>();
+        allElements = new ArrayList<>();
+        version = "1.0";
+        encoding = "UTF-8";
+    }
+    public void addElement(String parentName, Elem element)
     {
         if(parentName == null)
         {
-            rootElement = new Elem(names.get(0));
-            allElements.add(rootElement);
+            rootElement = element;            
         }
         else
         {
-            Elem pom = findElement(parentName);
-            Structure pomStruct = pom.addElement(names, type);
-            allElements.addAll(pomStruct.getElements());
-        }
+            findElement(parentName).addElement(element);            
+        }      
+        allElements.add(element);
+    }
+    
+    public void addObject(String parentName, Structure structure)
+    {
+        findElement(parentName).addObject(structure);      
     }
     
     public Elem findElement(String parentName)
@@ -43,29 +56,6 @@ public class Document {
             }
         }
         return null;
-    }
-    
-    public void addAttribute(String parentName, String name, String type, String option)
-    {        
-            Elem pom = findElement(parentName);
-            pom.addAttribute(name, type, option); 
-    }
-    
-    public List<Structure> getElements(String parentName)
-    {
-        Elem pom = findElement(parentName);
-        return pom.getStructures();
-    }
-    
-    public List<Attribute> getAttributes(String parentName)
-    {
-        Elem pom = findElement(parentName);
-        return pom.getAttributes();
-    }
-    
-    public Elem getRootElement()
-    {
-        return rootElement;
     }
     
     public String getVersion()
@@ -87,4 +77,52 @@ public class Document {
     {
         this.encoding = encoding;
     }
+    
+    public Elem getRootElement()
+    {
+        return rootElement;
+    }
+    
+    public List<Elem> getElements(String parentName)
+    {
+        Elem pom = findElement(parentName);
+        return pom.getElements();
+    }
+      
+    public void addAttribute(String parentName, Attribute attribute)
+    {        
+            findElement(parentName).addAttribute(attribute); 
+    }
+    
+    public List<Attribute> getAttributes(String parentName)
+    {
+        Elem pom = findElement(parentName);
+        return pom.getAttributes();
+    }
+    
+    public void addKey(String parentName, String name, String fixedValue)
+    {
+        if(keys == null)
+        {
+            keys = new LinkedList<>();
+        }
+        
+        keys.add(new Key(parentName, name, "required", fixedValue));   
+    }
+    
+    public List<Key> getKeys()
+    {
+        return Collections.unmodifiableList(keys);
+    }
+    
+    public String toXsd() 
+    {
+        String ret = new String();
+        ret += String.format( "<?xml version=\"%s\" encoding=\"%s\"?>\n", getVersion(), getEncoding() );  
+        ret += "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\">\n";
+        ret += rootElement.toXsd(this);
+        ret += "</xsd:schema>";
+        return ret;
+    }
+    
 }
