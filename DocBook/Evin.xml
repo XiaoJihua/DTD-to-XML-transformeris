@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+               "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book id="sprava">
+	<info>
+		<title>Záverečná správa</title>
+		<date>2016-06-13</date>
+		<author>Matej Evin</author>
+	</info>
+	<chapter id="ch_1">
+		<title>Reprezentácia dát</title>
+		<para>
+			Ako prvú úlohu pri tvorbe "DTD-to-XML" som mal spolu s kolegom Nespešným navrhnúť objektovú štruktúru, do ktorej sa budú ukladať jednotlivé komponenty vstupného DTD. Keďže DTD je štrukturované lineárne a XML schema je v hierarchii, potrebovali sme nájsť efektívnu objektovú reprezentáciu dát. Preto sme navrhli strom, kde každý element okrem vetiev s ostatnými objektami (choice, sequence, element) obsahuje aj index (zoznam) všetkých podelementov.
+		</para>
+	</chapter>
+	<chapter id="ch_2">
+		<title>Testy</title>
+		<para>
+			Mojou druhou úlohou bolo jednotkovými testami overiť správne fungovanie programu DTD-to-XML. Program sa skladá z viacerých častí, a nie všetky je možné efektívne jednotkovo testovať. Napríklad trieda Transformeris, ktorá je vstupným bodom programu, obsahuje len inštanciovanie triedy Document a zavolanie Parseru. Funkcionalitu parseru najlepšie skontrolujeme pomocou testovacích vstupných súborov. Celé jadro programu sa však nachádza v triede Document (a jej príbuzných tried Elem, Attribute, Structure a Key). Táto trieda má za úlohu ukladať do stromovej štruktúry vyparsované údaje z DTD. Jej funkcie môžeme jednotkovo otestovať. Napríklad pri vložení elementu sa môžeme pozrieť, či element existuje v zozname dokumentu, a či je zoznam práve vloženého elementu prázdny. Najzložitejším testom je test funkciue toXsd(), ktorá prehľadá celý strom od koreňového elementu a je rekurzívne volaná na každý nájdený objekt. Ako rozšírenie automatizovaných testov som program testoval aj manuálne, porovnávaním rôznych vstupv s výstupmi.
+		</para>
+		<para>
+			Pri testovaní sa mi podarilo odhaliť niekoľko nedostatkov, ktoré sme v zápätí odstránili, napríklad prístup za koniec poľa, zlá implementácia while cyklu a podobne. Testy nie sú úplne vyčerpávajúce, ale poskytujú aspoň základný rámec pre ohodnotenie správnosti programu.
+		</para>
+	</chapter>
+	<chapter id="ch_3">
+		<title>Dokumentácia a Wiki</title>
+		<para>
+			Keďže náš program neposkytuje žiadne verejné API, nevytvárali sme JavaDoc. V kóde sú len sporadické komentáre toho-ktorého programátora. Testy som okomentoval trocha širšie, aby bolo jasné, čo sa v nich testuje.
+		</para>
+		<para>
+			Wiki stránka projektu lepšie popisuje jednotlivé triedy a ich metódy. Je v slovenčine/češtine, kvôli ľahšej čitateľnosti. Nepredpokladáme, že sa o náš projekt bude veľmi zaujímať niekto ďalší. Pre tieto prípady som vytvoril len krátke readme v angličtine.
+		</para>
+	</chapter>
+</book>
