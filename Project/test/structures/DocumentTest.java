@@ -15,47 +15,61 @@ import junit.framework.TestCase;
  */
 public class DocumentTest extends TestCase {
 
-    private List<String> names;
-    private String type;
+    private Elem elem;
     private Document instance;
     
+    /**
+     * Constructor, inherits from superclass
+     * @param testName name pf test
+     */
     public DocumentTest(String testName) {
         super(testName);        
     }
     
+    /**
+     * This method sets up variables before every test
+     * @throws java.lang.Exception
+     */ 
     @Override
     protected void setUp() throws Exception {
-        names = new LinkedList<>();
-        names.add("rootElement");
-        type = "element";
+        elem = new Elem("rootElement");
         instance = new Document();
-        instance.addElement(null, names, type);
+        instance.addElement(null, elem);
     }
     
+    /**
+     * This method cleans up after every test
+     * @throws java.lang.Exception
+     */ 
     @Override
     protected void tearDown() throws Exception {
-        names = null;
-        type = null;
+        elem = null;
         instance = null;
     }
     
-    private void fill(char s, String parentElement) {
-        names.clear();
+    /**
+     * Ssed to add different elements to parent. Convenience method only.
+     * @param s identifier of which element to add
+     * @param parentElement where to put new element
+     */
+    private void fill(int s, String parentElement) {
+        Elem newElem;
         switch (s){
-            case '1': names.add("element1");
+            case 1: newElem = new Elem("element1");
+                    break;
+            case 2: newElem = new Elem("element2");
                       break;
-            case '2': names.add("element2");
-                      break;
-            case '3': names.add("element3");
-                      break;
-            default:  names.add("element4");
-                      break;
+            case 3: newElem = new Elem("element3");
+                    break;
+            default: newElem = new Elem("element4");
+                     break;
         }
-        instance.addElement(parentElement, names, type);
+        instance.addElement(parentElement, newElem);
     }
     
     /**
      * Test of addElement method, of class Document.
+     * Tests if elements are added correctly. Tries root element and sub-elements.
      */
     public void testAddElement() {
             
@@ -64,13 +78,13 @@ public class DocumentTest extends TestCase {
         System.out.println("    Subtest: add root element");
         assertEquals("Adding root element failed.", 0, instance.getElements("rootElement").size());
         
-        fill('1', "rootElement");
+        fill(1, "rootElement");
         
         System.out.println("    Subtest: add child element");
         assertEquals("Adding child element failed.", 1, instance.getElements("rootElement").size());
         
         System.out.println("    Subtest: check child element");
-        assertEquals("Stored element is incorrect.", "element1", instance.getElements("rootElement").get(0).getElements().get(0).getName());
+        assertEquals("Stored element is incorrect.", "element1", instance.getElements("rootElement").get(0).getName());
         
         System.out.println("    Subtest: check element list");
         assertEquals("There shouldn't be anything in element list.", 0, instance.getElements("element1").size());
@@ -78,6 +92,7 @@ public class DocumentTest extends TestCase {
 
     /**
      * Test of findElement method, of class Document.
+     * Creates a few elements and tries to fetch them using FindElement method.
      */
     public void testFindElement() {
         
@@ -89,7 +104,7 @@ public class DocumentTest extends TestCase {
         System.out.println("    Subtest: find root element");
         assertEquals(expResult.getName(), result.getName());
     
-        fill('2', "rootElement");
+        fill(2, "rootElement");
         
         expResult = new Elem("element2");
         result = instance.findElement("element2");
@@ -100,32 +115,37 @@ public class DocumentTest extends TestCase {
 
     /**
      * Test of addAttribute method, of class Document.
+     * Creates a few elements, adds them some attributes and checks if they were added correctly.
      */
     public void testAddAttribute() {
         
         System.out.println("Test: add attribute");
         
         String name = "attribute1";
-        String option = "REQUIRED";        
-        instance.addAttribute("rootElement", name, option);
+        String option = "required";
+        String fixed = "";
+        Attribute attribute = new Attribute(name, option, fixed);
+        instance.addAttribute("rootElement", attribute);
         
         System.out.println("    Subtest: check root element's attribute");
         assertEquals("Attribute should exist.", "attribute1", instance.getAttributes("rootElement").get(0).getName());
-        assertEquals("Attribute should exist.", "REQUIRED", instance.getAttributes("rootElement").get(0).getOption());
+        assertEquals("Attribute should exist.", "required", instance.getAttributes("rootElement").get(0).getOption());
         
-        fill('1', "rootElement");
-        fill('2', "element1");
+        fill(1, "rootElement");
+        fill(2, "element1");
         name = "attribute2";
-        option = "OPTIONAL";  
-        instance.addAttribute("element2", name, option);
+        option = "optional";  
+        attribute = new Attribute(name, option, fixed);
+        instance.addAttribute("element2", attribute);
         
         System.out.println("    Subtest: check sub-root element's attribute");
         assertEquals("Attribute should exist.", "attribute2", instance.getAttributes("element2").get(0).getName());
-        assertEquals("Attribute should exist.", "OPTIONAL", instance.getAttributes("element2").get(0).getOption());
+        assertEquals("Attribute should exist.", "optional", instance.getAttributes("element2").get(0).getOption());
     }
 
     /**
      * Test of getRootElement method, of class Document.
+     * Basic test for getting root element.
      */
     public void testGetRootElement() {
         
@@ -138,19 +158,47 @@ public class DocumentTest extends TestCase {
 
     /**
      * Test of toXsd method, of class Document.
+     * Creates root, under it 2 elements with one sub-element each.
+     * Performs basic automatic checks
+     * Prints output to System.out for manual check
      */
     public void testToXsd() {
 
         System.out.println("Test: toXsd");
 
-        fill('1', "rootElement");
-        fill('2', "rootElement");
-        fill('3', "element1");
-        fill('4', "element2");
-        instance.addAttribute("element3","attribute1","REQUIRED");
+        String name = "attribute1";
+        String option = "required";
+        String fixed = "";
+        Attribute attribute = new Attribute(name, option, fixed);
+        
+        Structure struct1 = new Structure("sequence");
+        Structure struct2 = new Structure("sequence");
+        Structure struct3 = new Structure("sequence");
+        
+        Elem elem1 = new Elem("element1");
+        Elem elem2 = new Elem("element2");
+        Elem elem3 = new Elem("element3");
+        Elem elem4 = new Elem("element4");
+     
+        struct1.addObject(elem1);
+        struct1.addObject(elem2);
+        instance.addElement("rootElement", elem1);
+        instance.addElement("rootElement", elem2);
+        instance.addElement("element1", elem3);
+        instance.addElement("element2", elem4);
+        
+        instance.addObject("rootElement", struct1);
+        
+        struct2.addObject(elem3);
+        instance.findElement("element1").addObject(struct2);
+        struct3.addObject(elem4);
+        instance.findElement("element2").addObject(struct3);
+        
+        instance.addAttribute("element3", attribute);
         instance.setEncoding("UTF-8");
         instance.setVersion("1.0");
         String result = instance.toXsd();
+        System.out.println(result); //prints xsd to standard output
         assertTrue(result.contains("<xsd:element name=\"rootElement\""));
         assertTrue(result.contains("</xsd:element>"));
         assertTrue(result.contains("<xsd:element name=\"element1\""));

@@ -10,13 +10,15 @@ package structures;
  * @author Simon
  */
 public class Attribute {
-    private String name;
+    private String name;    
     private String option;
+    private String fixed;
     
-    public Attribute(String name, String option)
+    public Attribute(String name, String option, String fixed)
     {
-        this.name = name;
+        this.name = name;      
         this.option = option;
+        this.fixed = fixed;
     }
     
     public String getName()
@@ -41,6 +43,7 @@ public class Attribute {
     
     public String toXsd() 
     {
-        return "<xsd:attribute name=\"" + name + "\" type=\"xsd:string\" " + "use=\"" + (option.equals("REQUIRED") ? "required" : "optional" ) + "\"/>\n";
+        return "<xsd:attribute name=\"" + name + "\" type=\"xsd:string\" " + 
+               "use=\"" + option + "\"" + ((!fixed.isEmpty()) ? " fixed=" + fixed : "") + "/>\n";         
     }
 }

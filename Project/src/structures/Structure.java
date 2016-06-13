@@ -16,18 +16,16 @@ import java.util.List;
 public class Structure 
 {
     private String identifier;
-    private List<Elem> elems = null;
-    private int minOccurs;
-    private int maxOccurs;
+    private List<Object> structures = null;
+    private String minOccurs;
+    private String maxOccurs;
         
-    public Structure(List<String>names, String identifier)
+    public Structure(String identifier)
     {
         this.identifier = identifier;
-        elems = new LinkedList<>();
-        for(String i:names)
-        {
-            elems.add(new Elem(i));
-        }
+        structures = new LinkedList<>();  
+        minOccurs = "1";
+        maxOccurs = "1";
     }
     
     public void setIdentifier(String identifier)
@@ -40,40 +38,53 @@ public class Structure
         return identifier;
     }
     
-    public List<Elem> getElements()
+    public List<Object> getObjects()
     {
-        return elems;
+        return Collections.unmodifiableList(structures);
     }
     
-    public int getMaxOccurs()
+    public void addObject(Object object)
+    {
+        structures.add(object);
+    }
+    
+    public String getMaxOccurs()
     {
         return maxOccurs;
     }
-    public void setMaxOccurs(int maxOccurs)
+    public void setMaxOccurs(String maxOccurs)
     {
         this.maxOccurs = maxOccurs;
     }
     
-    public int getMinOccurs()
+    public String getMinOccurs()
     {
         return minOccurs;
     }
-    public void setMinOccurs(int minOccurs)
+    public void setMinOccurs(String minOccurs)
     {
         this.minOccurs = minOccurs;
     }
     
-    public String toXsd() 
+    
+    public String toXsd(Document document) 
     {
         String ret = new String();
         ret += "<xsd:" + identifier + " minOccurs=\"" + getMinOccurs() + "\" maxOccurs=\"" + getMaxOccurs() + "\">\n";
-        for (Elem elem : getElements())
+        for(Object o:structures)
         {
-            ret += elem.toXsd();
-        }
+            if(o.getClass().equals(Elem.class))
+            {                
+                ret += ((Elem)o).toXsd(document);
+            }
+            else 
+            {                
+                ret += ((Structure)o).toXsd(document);   
+            }
+        }    
         ret += "</xsd:" + identifier + ">\n";
+              
         return ret;
     }
 }
-
 

@@ -4,13 +4,14 @@
  * and open the template in the editor.
  */
 package transformeris;
-import Parser.Parser;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.PrintWriter;
-import structures.Attribute;
+import parser.Parser;
 import structures.Document;
-import structures.Elem;
-import structures.Structure;
-
 
 /**
  *
@@ -21,16 +22,42 @@ public class Transformeris {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        String nazovDokumentu = "xmlko";
+    public static void main(String[] args) 
+    {        
+        if (args.length == 0) {
+            System.err.println("No xml file specified.");
+            return;
+        }
+    
+        String documentName = args[0];
+        File file = new File(documentName);
+        File referencedFile = new File("");
         Document document = new Document();
         
-        Parser p1 = new Parser(nazovDokumentu, document);
-        p1.parse();
+        Parser p1 = new Parser(document);
+        try
+        {            
+            referencedFile = p1.parse(file);            
+        }
+        catch( Exception e )
+        {
+            
+        } 
+        
+        if(p1.getIsDTD())
+        {
+            file.delete();
+            referencedFile.renameTo(file);
+        }
+        else
+        {
+            System.out.println("ERROR: DTD is not included in file");
+        }
+        
         
         try
         {     
-            PrintWriter out = new PrintWriter("output.txt");
+            PrintWriter out = new PrintWriter("output.xsd");
             out.print(document.toXsd());
             out.close();
         } 
@@ -39,4 +66,5 @@ public class Transformeris {
             
         }
     }
+    
 }
