@@ -24,6 +24,12 @@ public class Transformeris {
      */
     public static void main(String[] args) 
     {        
+        if (args.length == 0) 
+        {
+            System.err.println("No xml file specified.");
+            return;
+        }
+        
         String documentName = args[0];
         File file = new File(documentName);
         File referencedFile = new File("");
@@ -36,7 +42,8 @@ public class Transformeris {
         }
         catch( Exception e )
         {
-            
+            System.err.println("file can not be opened");
+            return;
         } 
         
         if(p1.getIsDTD())
@@ -46,7 +53,7 @@ public class Transformeris {
         }
         else
         {
-            System.out.println("ERROR: DTD is not included in file");
+            System.err.println("ERROR: DTD is not included in file");
         }
         
         
@@ -60,6 +67,5 @@ public class Transformeris {
         {
             
         }
-    }
-    
+    }    
 }

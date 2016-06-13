@@ -25,6 +25,7 @@ public class Parser
 {
     private Document document;
     private boolean isDTD = false;
+    private boolean parseNext = true;
     
     public Parser(Document document) 
     {
@@ -43,7 +44,7 @@ public class Parser
             
             int character = reader.read();
             String block = new String();
-            while(character != -1)
+            while(character != -1 && parseNext)
             {
                 if(String.valueOf((char)character).equals("<"))
                 {
@@ -65,9 +66,15 @@ public class Parser
                         {            
                             block = block.substring(0, block.indexOf(">"));
                             block += " xmlns=\"http://www.w3schools.com\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3schools.com output.xsd\">";
+                            while(character != -1)
+                            {
+                                character = reader.read();
+                                block += String.valueOf((char)character);               
+                            }
                             isReferenceSet = true;
-                        }
-                        writer.write(block + System.getProperty("line.separator"));
+                            parseNext = false;                         
+                        }                                      
+                        writer.write(block + System.getProperty("line.separator"));                                          
                     }                    
                     
                     if(block.contains("version") && block.contains("<?") && block.contains("?>"))
