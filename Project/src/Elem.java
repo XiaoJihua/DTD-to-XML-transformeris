@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package structures;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,37 +16,32 @@ import java.util.List;
 public class Elem 
 {   
     private String name = null;
-    private List<Structure> structures = null;
+    private String identifier = null;
+    private List<Object> objects = null;
+    private List<Elem> elems = null;
     private List<Attribute> attributes = null;
-    private int minOccurs = 0;
-    private int maxOccurs = 0;
+    private String minOccurs;
+    private String maxOccurs;
     
     public Elem(String name)
     {
         this.name = name;     
-    }    
+        this.identifier = "element";
+        objects = new LinkedList<>();
+        elems = new ArrayList<>();
+        attributes = new ArrayList<>();
+        minOccurs = "1";
+        maxOccurs = "1";
+    } 
     
-    public Structure addElement(List<String> names, String type)
-    {
-        if(structures == null)
-        {
-            structures = new LinkedList<>();
-        }
-        
-        Structure pom = new Structure(names, type);
-        structures.add(pom);
-        return pom;
+    public void addObject(Object object)
+    {     
+        objects.add(object);
     }
     
-    public void addAttribute(String name, String type, String option)
+    public void addElement(Elem element)
     {
-        if(attributes == null)
-        {
-            attributes = new LinkedList<>();
-        }
-        
-        Attribute pom = new Attribute(name, type, option);
-        attributes.add(pom);
+        elems.add(element);
     }
     
     public String getName()
@@ -54,9 +49,19 @@ public class Elem
         return name;
     }
     
-    public List<Structure> getStructures()
+    public List<Object> getObjects()
     {
-        return Collections.unmodifiableList(structures);
+        return Collections.unmodifiableList(objects);
+    }
+    
+    public List<Elem> getElements()
+    {
+        return Collections.unmodifiableList(elems);
+    }
+    
+    public void addAttribute(Attribute attribute)
+    {        
+        attributes.add(attribute);
     }
     
     public List<Attribute> getAttributes()
@@ -64,21 +69,87 @@ public class Elem
         return Collections.unmodifiableList(attributes);
     }
     
-    public int getMaxOccurs()
+    public String getIdentifier()
+    {
+        return identifier;
+    }
+    
+    public String getMaxOccurs()
     {
         return maxOccurs;
     }
-    public void setMaxOccurs(int maxOccurs)
+    
+    public void setMaxOccurs(String maxOccurs)
     {
         this.maxOccurs = maxOccurs;
     }
     
-    public int getMinOccurs()
+    public String getMinOccurs()
     {
         return minOccurs;
     }
-    public void setMinOccurs(int minOccurs)
+    
+    public void setMinOccurs(String minOccurs)
     {
         this.minOccurs = minOccurs;
+    }
+    
+    public String toXsd(Document document)
+    {
+        String ret = new String();
+        
+        if( !objects.isEmpty() || !attributes.isEmpty() )
+        {            
+            if(name.equals(document.getRootElement().getName()))
+            {
+                ret += "<xsd:element name=\"" + name + "\">\n";                              
+            }
+            else
+            {
+                ret += "<xsd:element name=\"" + name + "\" minOccurs=\"" + minOccurs + "\" maxOccurs=\"" + maxOccurs + "\">\n";
+            }
+            ret += "<xsd:complexType>\n";
+            
+            for(Object o:objects)
+            {
+                if(o.getClass().equals(Elem.class))
+                {                    
+                    ret += ((Elem)o).toXsd(document);
+                }
+                else
+                {
+                    ret += ((Structure)o).toXsd(document);
+                }
+            }   
+            for( Attribute a : attributes )
+            {
+                ret += a.toXsd();
+            }            
+            ret += "</xsd:complexType>\n";
+            if(name.equals(document.getRootElement().getName()))
+            {
+                for(Key a:document.getKeys())
+                    {
+                        ret += "<xsd:key name=\"" + a.getName() + "Key\">\n";
+                        ret += "<xsd:selector xpath=\".//" + a.getParent() + "\"/>\n";
+                        ret += "<xsd:field xpath=\"@" + a.getName() + "\"/>\n";
+                        ret += "</xsd:key>\n";
+                    }  
+            }
+            ret += "</xsd:element>\n";
+        }       
+        else
+        {            
+            if(name.equals(document.getRootElement().getName()))
+            {
+                ret += "<xsd:element name=\"" + name + "\" type=\"xsd:string\"/>\n";
+            }
+            else
+            {
+                ret += "<xsd:element name=\"" + name + "\" type=\"xsd:string\" minOccurs=\"" + minOccurs + "\" maxOccurs=\"" + maxOccurs + "\"/>\n";
+            }
+        }     
+        
+        return ret;
     }
 }
