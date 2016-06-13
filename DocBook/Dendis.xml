@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+               "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book id="sprava">
+	<info>
+		<title>Záverečná správa</title>
+		<date>2016-06-13</date>
+		<author>Ivan Dendis</author>
+	</info>
+	<chapter id="ch_1">
+		<title>Práca s Gitom</title>
+		<para>
+		Mojou prvou úlohou na projekte bolo vytvoriť repozitár na GitHube a kedže už s gitom mám skúsenosti, vysvetliť kolegom základy jeho používania. Pre tento účel som na začiatku, pre prvý kontrolný bod vytvoril branch, kde sme káždý commitli vlastný príklad prevodu DTD na XSD. Následne bol vytvorený pull request a branch mergnutý naspäť do master branchu. Tento postup mal slúžiť ako príklad pre ďalšie používanie Gitového repozitáru. Počas zvyšnej práce na projekte sa nám ale tento vzor nedarilo vždy dodržovať. V repozitári sa nachádzajú branche, ktoré neboli mergnuté naspäť do masteru a aj také, ktoré obsahujú comity, ktoré by bolo lepšie rozdeliť na viac branchov.
+		</para>
+	</chapter>	
+	<chapter id="ch_2">
+		<title>Transformácia DTD</title>
+		<para>
+		Potom čo kolegovia vytvorili štruktúru vhodnú pre ukladanie vyparsovaných dát z DTD, mojou úlohou bolo zaistiť ich transformáciu na XSD konštrukcie. Štruktúra pozostáva z niekoľkých tried pre rôzne typy konštrukcií v DTD, ako napríklad trieda <emphasis>Attribute</emphasis> alebo <emphasis>Element</emphasis>. Do týchto tried som pridal metódu <emphasis>toXsd</emphasis>, ktorá z príslušného objektu vytvorí string ako jeho reprezentáciu v XSD. Niektoré objekty obsahujú zoznam "detí" a preto sa metóda volá aj pre každé znich a stringy reprezentujúce XSD sa rekurzívne spájajú a tak vytvárajú konečnú XSD schému.
+		</para>
+	</chapter>	
+</book>
