@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+               "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book id="simple_book">
+	<info>
+		<title>Záverečná správa</title>
+		<date>2016-06-13</date>
+		<author>Simon Nespešný</author>
+	</info>
+	
+	<chapter id="chapter_1">
+		<title>Návrh štruktúry</title>
+		<para>Ako je uvedené na stránke wiki nášho projektu, hlavnou náplňou mojej práce bol návrh a implementácia štruktúry, ktorá slúži na ukladanie vyparsovaných dát schémy dtd. Ako najvhodnejší spôsob sme spolu s Matejom Evinom zvolili strom, ktorého uzly predstavujú sekvenciu, choice alebo element typu complexType. Listy stromu predstavujú elementy typu simpleType. Aby sa pri vkladaní nového prvku do stromu nemusel prehľadávať celý strom za účelom nájdenia rodiča vkladaného prvku, vytvorili sme navyše pole referencií na všetky elementy. Zložitosť  pri hľadaní rodiča je tak lineárna, pričom je potrebné prehľadať výrazne menej prvkov, ako je to v prípade stromu.</para>
+	</chapter>
+	<chapter id="chapter_3">
+		<title>Parser</title>
+		<para>Nad rámec svojich pôvodných úloh na projekte som vypracoval aj parser. Po nahliadnutí do rozpracovaného pôvodného parsera som nebol stotožnený s tým, akým smerom sa vývoj uberal, preto som sa rozhodol zobrať to do vlastných rúk a prerobiť ho od základov. Aby nebolo nutné prechádzať súbor viackrát, počas parsovania som prepisoval obsah súboru do dočasného súboru, v ktorom je nahradený odkaz na dtd odkazom na xml schema. Pri parsovaní elementu sa zavolá funkcia na rozparsovanie hlavnej sekvencie, pričom pri nájdení nasledujúcej sekvencie dochádza k rekurzívnemu volaniu.</para>
+	</chapter>
+</book>
